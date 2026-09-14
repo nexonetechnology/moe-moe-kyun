@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maid Café Japanese Phrases</title>
+<style>
+  :root{
+    --pink:#ff6fa5; --pink-dark:#e0568c; --bg:#fff0f5; --card:#fff;
+    --text:#3a2b33;
+  }
+  *{box-sizing:border-box;}
+  body{
+    background:linear-gradient(180deg,#ffe3ef,#fff0f5 40%);
+    color:var(--text); padding:20px;
+  }
+  h1{text-align:center; color:var(--pink-dark); margin-bottom:4px;}
+  p.sub{text-align:center; color:#888; margin-top:0; margin-bottom:20px;}
+  .grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:16px; max-width:1000px; margin:0 auto;
+  }
+  .card{
+    background:var(--card); border-radius:16px; padding:16px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.08); border:2px solid #ffd6e8;
+  }
+  .jp{font-size:22px; font-weight:bold; color:var(--pink-dark);}
+  .pronounce{color:#999; font-size:13px; margin-top:2px; font-style:italic;}
+  .meaning{margin-top:8px; font-size:14px;}
+  .playbtn{
+    margin-top:10px; width:100%; padding:8px; border:none; border-radius:10px;
+    background:var(--pink); color:white; font-size:14px; cursor:pointer;
+  }
+  .playbtn:active{background:var(--pink-dark);}
+  footer{text-align:center; color:#aaa; font-size:12px; margin-top:30px;}
+</style>
+</head>
+<body>
+
+<h1>🎀 Moe Moe Kyun Cafe 🎀</h1>
+<p class="sub">Tap a card to hear the phrase spoken aloud.</p>
+
+<div class="grid" id="grid"></div>
+
+<footer>Made with ♥</footer>
+
+<script>
+const phrases = [
+  { file:"maid_cafe_audio/01_okaeri.mp3", romaji:"Okaeri", pronounce:"oh-kah-EH-ree", meaning:"\"Welcome back.\" Casual short greeting when a guest returns." },
+  { file:"maid_cafe_audio/15_okaerinasaimase.mp3", romaji:"Okaerinasaimase", pronounce:"oh-kah-eh-ree-nah-sai-mah-seh", meaning:"\"Welcome home.\" Standard greeting for customer entering." },
+  { file:"maid_cafe_audio/03_goshujinsama.mp3", romaji:"Goshujin-sama", pronounce:"go-shoo-jeen-sah-mah", meaning:"\"Master.\" Term maids use to address male customers." },
+  { file:"maid_cafe_audio/04_ojousama.mp3", romaji:"Ojou-sama", pronounce:"oh-JOH-sah-mah", meaning:"\"Miss / young lady.\" Term maids use to address female customers." },
+  { file:"maid_cafe_audio/05_chotto_matte.mp3", romaji:"Chotto matte", pronounce:"CHOT-toh MAH-teh", meaning:"\"Wait a moment.\" Casual way to ask someone to wait." },
+  { file:"maid_cafe_audio/05_chotto_matte_kudasai.mp3", romaji:"Chotto matte kudasai", pronounce:"CHOT-toh MAH-teh koo-dah-sai", meaning:"\"Please wait a moment.\" Slightly more polite version." },
+  { file:"maid_cafe_audio/06_shoushou_omachi_kudasai.mp3", romaji:"Shoushou omachi kudasai", pronounce:"SHOH-shoh oh-MAH-chee koo-dah-sai", meaning:"\"Please wait a moment.\" Formal, used while preparing an order." },
+  { file:"maid_cafe_audio/07_seno.mp3", romaji:"Se-no", pronounce:"SEH-noh", meaning:"\"Ready, set...!\" Countdown cue said before a group action (like a magic chant)." },
+  { file:"maid_cafe_audio/16_oshikurnari_moe_moe_kyun.mp3", romaji:"Oishiku naare, moe moe kyun!", pronounce:"oy-SHEE-koo nah-AH-reh, MOH-eh MOH-eh KYOON", meaning:"Cute spell chanted over food/drink: \"Become delicious!\" + a playful heart gesture." },
+  { file:"maid_cafe_audio/09_seno_oishiku_naare_moe_moe_kyun.mp3", romaji:"Se-no, oishiku naare, moe moe kyun!", pronounce:"SEH-noh, oy-SHEE-koo nah-AH-reh, MOH-eh MOH-eh KYOON", meaning:"Full chant: countdown cue followed by the \"become delicious\" cuteness spell." },
+  { file:"maid_cafe_audio/10_douzo.mp3", romaji:"Douzo", pronounce:"DOH-zoh", meaning:"\"Here you go / please.\" Said when serving or offering something. If you forget your phrases this is the universal one to use." },
+  { file:"maid_cafe_audio/11_arigatou.mp3", romaji:"Arigatou", pronounce:"ah-ree-GAH-toh", meaning:"\"Thank you.\" Casual thanks.." },
+  { file:"maid_cafe_audio/12_arigatou_gozaimasu.mp3", romaji:"Arigatou gozaimasu", pronounce:"ah-ree-GAH-toh go-zai-mahs", meaning:"\"Thank you very much.\" Polite thanks" },
+  { file:"maid_cafe_audio/13_itterasshai.mp3", romaji:"Itterasshai", pronounce:"eet-teh-rah-SHAI", meaning:"\"Take care / see you off.\" Casual send-off." },
+  { file:"maid_cafe_audio/14_itterasshaimase.mp3", romaji:"Itterasshaimase", pronounce:"eet-teh-rah-SHAI-mah-seh", meaning:"\"Please come back safely.\" Polite send-off." }
+];
+
+const grid = document.getElementById('grid');
+phrases.forEach(p=>{
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="jp">${p.romaji}</div>
+    <div class="pronounce">${p.pronounce}</div>
+    <div class="meaning">${p.meaning}</div>
+    <button class="playbtn" data-src="${p.file}">🔊 Play</button>
+    <audio preload="none" src="${p.file}"></audio>
+  `;
+  grid.appendChild(card);
+});
+
+let current = null;
+document.addEventListener('click', (e)=>{
+  if(e.target.classList.contains('playbtn')){
+    if(current){ current.pause(); current.currentTime = 0; }
+    const audio = e.target.nextElementSibling;
+    current = audio;
+    audio.play();
+  }
+});
+</script>
+
+</body>
+</html>
