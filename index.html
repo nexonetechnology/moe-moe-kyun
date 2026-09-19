@@ -33,6 +33,15 @@
   }
   .playbtn:active{background:var(--pink-dark);}
   footer{text-align:center; color:#aaa; font-size:12px; margin-top:30px;}
+  .legend{max-width:1000px; margin:30px auto 0; background:var(--card); border-radius:16px;
+    padding:16px 20px; box-shadow:0 4px 10px rgba(0,0,0,0.08); border:2px solid #ffd6e8;}
+  .legend h2{color:var(--pink-dark); font-size:18px; margin:14px 0 8px;}
+  .legend h2:first-child{margin-top:0;}
+  .legend ul{list-style:none; margin:0; padding:0;}
+  .legend li{display:flex; align-items:center; gap:8px; padding:3px 0; font-size:14px;}
+  .dot{width:14px; height:14px; border-radius:50%; flex-shrink:0; border:1px solid rgba(0,0,0,0.15);}
+  .legend .notes{font-size:13px; color:#777; margin-top:6px;}
+  .legend .notes li{align-items:flex-start;}
 </style>
 </head>
 <body>
@@ -41,6 +50,36 @@
 <p class="sub">Tap a card to hear the phrase spoken aloud.</p>
 
 <div class="grid" id="grid"></div>
+
+<div class="legend">
+  <h2>Status</h2>
+  <ul>
+    <li><span class="dot" style="background:#111;"></span> Black — VIP Guest</li>
+  </ul>
+
+  <h2>Food</h2>
+  <ul>
+    <li><span class="dot" style="background:#ff6fa5;"></span> Pink — Pink Curry</li>
+    <li><span class="dot" style="background:#90ee90;"></span> Light Green — Vegan Pink Curry</li>
+    <li><span class="dot" style="background:#ffd400;"></span> Yellow — Omelette Rice</li>
+    <li><span class="dot" style="background:#fff; border-color:#ccc;"></span> White — Indomie Noodles</li>
+    <li><span class="dot" style="background:#a259d9;"></span> Purple — Swiss Roll</li>
+  </ul>
+
+  <h2>Drinks</h2>
+  <ul>
+    <li><span class="dot" style="background:#e02424;"></span> Red — Watermelon Ade</li>
+    <li><span class="dot" style="background:#ff8c00;"></span> Orange — Mango Ade</li>
+    <li><span class="dot" style="background:#2563eb;"></span> Blue — Blue Lemonade</li>
+    <li><span class="dot" style="background:#1a4d2e;"></span> Dark Green — Peach Iced Tea</li>
+  </ul>
+
+  <h2>Notes</h2>
+  <ul class="notes">
+    <li>Greens Rule: Light Green is Food (Vegan), Dark Green is Drink (Tea).</li>
+    <li>Color Matches: Pink = Pink Curry, Blue = Blue Lemonade, Yellow = Omelette Rice.</li>
+  </ul>
+</div>
 
 <footer>Powered by Tech My Money</footer>
 
