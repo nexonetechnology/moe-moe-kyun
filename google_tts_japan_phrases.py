@@ -22,7 +22,9 @@ phrases = {
     # # 6. Farewell / Departure
     # "13_itterasshai": "行ってらっしゃい！",
     # "14_itterasshaimase": "行ってらっしゃいませ！",
-    "15_okaerinasaimase": "お帰りなさいませ！",
+    # "15_okaerinasaimase": "お帰りなさいませ！",
+    "16_janken_pon": "じゃんけん、ぽん！",
+    "17_acchi_muite_hoi": "あっち向いてホイ！"
 }
 
 output_dir = "maid_cafe_audio"
