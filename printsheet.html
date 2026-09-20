@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BOH Order Reference Sheet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #ffffff;
+      --panel-border: #d0d4da;
+      --text-white: #000000;
+      --text-sub: #555b66;
+      
+      /* Color definitions */
+      --c-black: #050505;
+      --c-pink: #f06292;
+      --c-light-green: #8bc34a;
+      --c-yellow: #fbc02d;
+      --c-white: #f8f9fa;
+      --c-purple: #8e24aa;
+      --c-red: #e53935;
+      --c-orange: #fb8c00;
+      --c-blue: #1e88e5;
+      --c-dark-green: #2e7d32;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-white);
+      font-family: 'Oswald', 'Helvetica Neue', Arial, sans-serif;
+      text-transform: uppercase;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .poster {
+      width: 1000px;
+      background-color: var(--bg-dark);
+      border: 3px solid #22262c;
+      padding: 30px;
+    }
+
+    /* Master Header */
+    .master-header {
+      text-align: center;
+      padding-bottom: 20px;
+      margin-bottom: 25px;
+      border-bottom: 4px solid var(--panel-border);
+    }
+    .master-header h1 {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    .master-header p {
+      color: var(--text-sub);
+      font-size: 16px;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      margin-top: 6px;
+    }
+
+    /* Two-Panel Layout */
+    .columns-container {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr;
+      column-gap: 28px;
+    }
+
+    .divider {
+      background-color: var(--panel-border);
+      height: 10%;
+    }
+
+    /* Column Headers */
+    .col-header {
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #292e36;
+    }
+    .col-header h2 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+    }
+    .col-header span {
+      display: block;
+      font-size: 14px;
+      color: var(--text-sub);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Category Labels */
+    .cat-label {
+      font-size: 18px;
+      color: #798390;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      margin-top: 14px;
+      margin-bottom: 10px;
+    }
+
+    /* Left Panel: Pass Indicator Row */
+    .block-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 11px;
+      gap: 16px;
+    }
+    .block-swatch {
+      width: 72px;
+      height: 72px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .block-swatch.white {
+      border: 1px solid #777;
+    }
+    .item-info h3 {
+      font-size: 30px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      line-height: 1.1;
+      white-space: nowrap;
+    }
+    .item-info .color-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text-sub);
+      letter-spacing: 1px;
+    }
+
+    /* Quick Overview legend (left panel) */
+    .token-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .legend-row {
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      text-transform: none;
+    }
+
+    /* Right Panel: Casino Chip Row */
+    .token-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      margin-top: 10px;
+    }
+    .token-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Casino Poker Chip (real image, not CSS gradient — prints reliably) */
+    .chip {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      display: block;
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 10mm;
+      }
+      body {
+        padding: 0;
+        background: #fff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        display: block;
+      }
+      /* 190mm x 277mm printable area, 2 x 3 cards. 1mm slack so it never
+         spills onto a second page. */
+      .sheet-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 95mm);
+        grid-template-rows: repeat(3, 92mm);
+        gap: 0;
+      }
+      .cell {
+        overflow: hidden;
+        padding: 2mm;
+        border: 0.3mm dashed #bbb;   /* cut guide */
+      }
+      .poster {
+        border: none;
+        width: 100%;
+        height: 100%;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+      }
+      .master-header {
+        margin-bottom: 1.5mm;
+        padding-bottom: 1mm;
+        border-bottom-width: 0.4mm;
+      }
+      .master-header h1 {
+        font-size: 3mm;
+        line-height: 1.15;
+        letter-spacing: 0.2px;
+      }
+      .columns-container {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 0.3mm 1fr;
+        column-gap: 1.5mm;
+        min-height: 0;
+      }
+      .divider {
+        width: 100%;
+        height: 100%;
+      }
+      .col-header {
+        margin-bottom: 1mm;
+        padding-bottom: 0.8mm;
+        border-bottom-width: 0.3mm;
+      }
+      .col-header h2 {
+        font-size: 3mm;
+        line-height: 1.1;
+      }
+      .col-header span {
+        font-size: 2.1mm;
+        line-height: 1.1;
+        margin-top: 0;
+      }
+      .cat-label {
+        margin-top: 1.2mm;
+        margin-bottom: 0.8mm;
+        font-size: 2.4mm;
+        line-height: 1;
+      }
+      .block-row, .token-card {
+        margin-bottom: 0.6mm;
+        gap: 1.5mm;
+        break-inside: avoid;
+      }
+      .block-swatch, .chip {
+        width: 5mm;
+        height: 5mm;
+        box-shadow: none;
+      }
+      .item-info h3 {
+        font-size: 3.6mm;
+        font-weight: 700;
+        line-height: 1.05;
+      }
+      .item-info .color-name {
+        font-size: 2.1mm;
+        font-weight: 700;
+        line-height: 1;
+        letter-spacing: 0;
+      }
+      .token-grid {
+        gap: 0;
+        margin-top: 0;
+      }
+      .panel {
+        break-inside: avoid;
+        min-width: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="sheet-grid">
+  <div class="cell">
+    <div class="poster">
+      <header class="master-header">
+        <h1>Back of House Order Code Reference Poster</h1>
+      </header>
+    
+      <div class="columns-container">
+        <!-- LEFT PANEL: Rectangular Blocks -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Rectangular Blocks</h2>
+            <span>Normal Food</span>
+          </div>
+    
+          <div class="cat-label">Status</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-black);"></div>
+            <div class="item-info">
+              <h3>VIP Guest</h3>
+              <div class="color-name">Solid Black</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-pink);"></div>
+            <div class="item-info">
+              <h3>Pink Curry</h3>
+              <div class="color-name">Pink</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-light-green);"></div>
+            <div class="item-info">
+              <h3 class="h3-lg">Vegan Pink Curry</h3>
+              <div class="color-name">Light Green</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-yellow);"></div>
+            <div class="item-info">
+              <h3>Omelette Rice</h3>
+              <div class="color-name">Yellow</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-purple);"></div>
+            <div class="item-info">
+              <h3>Swiss Roll</h3>
+              <div class="color-name">Purple</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-red);"></div>
+            <div class="item-info">
+              <h3>Watermelon Ade</h3>
+              <div class="color-name">Red</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-orange);"></div>
+            <div class="item-info">
+              <h3>Mango Ade</h3>
+              <div class="color-name">Orange</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-blue);"></div>
+            <div class="item-info">
+              <h3>Blue Lemonade</h3>
+              <div class="color-name">Blue</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-dark-green);"></div>
+            <div class="item-info">
+              <h3>Peach Iced Tea</h3>
+              <div class="color-name">Dark Green</div>
+            </div>
+          </div>
+        </section>
+    
+        <!-- DIVIDER -->
+        <div class="divider"></div>
+    
+        <!-- RIGHT PANEL: Casino Poker Tokens -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Casino Poker Tokens</h2>
+            <span>Special Menu</span>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-red.svg" alt="Red poker chip">
+              <div class="item-info">
+                <h3>Beef Noodles</h3>
+                <div class="color-name">Red Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-blue.svg" alt="Blue poker chip">
+              <div class="item-info">
+                <h3 class="h3-lg">Seafood Noodles</h3>
+                <div class="color-name">Blue Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-green.svg" alt="Green poker chip">
+              <div class="item-info">
+                <h3>Vegan Noodles</h3>
+                <div class="color-name">Green Striped Token</div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-black.svg" alt="Black poker chip">
+              <div class="item-info">
+                <h3>Tropical Drink</h3>
+                <div class="color-name">Black Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-white.svg" alt="White poker chip" style="border: 1px solid #999; border-radius: 50%;">
+              <div class="item-info">
+                <h3>Pear Drink</h3>
+                <div class="color-name">White Striped Token</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="poster">
+      <header class="master-header">
+        <h1>Back of House Order Code Reference Poster</h1>
+      </header>
+    
+      <div class="columns-container">
+        <!-- LEFT PANEL: Rectangular Blocks -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Rectangular Blocks</h2>
+            <span>Normal Food</span>
+          </div>
+    
+          <div class="cat-label">Status</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-black);"></div>
+            <div class="item-info">
+              <h3>VIP Guest</h3>
+              <div class="color-name">Solid Black</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-pink);"></div>
+            <div class="item-info">
+              <h3>Pink Curry</h3>
+              <div class="color-name">Pink</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-light-green);"></div>
+            <div class="item-info">
+              <h3 class="h3-lg">Vegan Pink Curry</h3>
+              <div class="color-name">Light Green</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-yellow);"></div>
+            <div class="item-info">
+              <h3>Omelette Rice</h3>
+              <div class="color-name">Yellow</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-purple);"></div>
+            <div class="item-info">
+              <h3>Swiss Roll</h3>
+              <div class="color-name">Purple</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-red);"></div>
+            <div class="item-info">
+              <h3>Watermelon Ade</h3>
+              <div class="color-name">Red</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-orange);"></div>
+            <div class="item-info">
+              <h3>Mango Ade</h3>
+              <div class="color-name">Orange</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-blue);"></div>
+            <div class="item-info">
+              <h3>Blue Lemonade</h3>
+              <div class="color-name">Blue</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-dark-green);"></div>
+            <div class="item-info">
+              <h3>Peach Iced Tea</h3>
+              <div class="color-name">Dark Green</div>
+            </div>
+          </div>
+        </section>
+    
+        <!-- DIVIDER -->
+        <div class="divider"></div>
+    
+        <!-- RIGHT PANEL: Casino Poker Tokens -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Casino Poker Tokens</h2>
+            <span>Special Menu</span>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-red.svg" alt="Red poker chip">
+              <div class="item-info">
+                <h3>Beef Noodles</h3>
+                <div class="color-name">Red Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-blue.svg" alt="Blue poker chip">
+              <div class="item-info">
+                <h3 class="h3-lg">Seafood Noodles</h3>
+                <div class="color-name">Blue Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-green.svg" alt="Green poker chip">
+              <div class="item-info">
+                <h3>Vegan Noodles</h3>
+                <div class="color-name">Green Striped Token</div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-black.svg" alt="Black poker chip">
+              <div class="item-info">
+                <h3>Tropical Drink</h3>
+                <div class="color-name">Black Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-white.svg" alt="White poker chip" style="border: 1px solid #999; border-radius: 50%;">
+              <div class="item-info">
+                <h3>Pear Drink</h3>
+                <div class="color-name">White Striped Token</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="poster">
+      <header class="master-header">
+        <h1>Back of House Order Code Reference Poster</h1>
+      </header>
+    
+      <div class="columns-container">
+        <!-- LEFT PANEL: Rectangular Blocks -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Rectangular Blocks</h2>
+            <span>Normal Food</span>
+          </div>
+    
+          <div class="cat-label">Status</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-black);"></div>
+            <div class="item-info">
+              <h3>VIP Guest</h3>
+              <div class="color-name">Solid Black</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-pink);"></div>
+            <div class="item-info">
+              <h3>Pink Curry</h3>
+              <div class="color-name">Pink</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-light-green);"></div>
+            <div class="item-info">
+              <h3 class="h3-lg">Vegan Pink Curry</h3>
+              <div class="color-name">Light Green</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-yellow);"></div>
+            <div class="item-info">
+              <h3>Omelette Rice</h3>
+              <div class="color-name">Yellow</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-purple);"></div>
+            <div class="item-info">
+              <h3>Swiss Roll</h3>
+              <div class="color-name">Purple</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-red);"></div>
+            <div class="item-info">
+              <h3>Watermelon Ade</h3>
+              <div class="color-name">Red</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-orange);"></div>
+            <div class="item-info">
+              <h3>Mango Ade</h3>
+              <div class="color-name">Orange</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-blue);"></div>
+            <div class="item-info">
+              <h3>Blue Lemonade</h3>
+              <div class="color-name">Blue</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-dark-green);"></div>
+            <div class="item-info">
+              <h3>Peach Iced Tea</h3>
+              <div class="color-name">Dark Green</div>
+            </div>
+          </div>
+        </section>
+    
+        <!-- DIVIDER -->
+        <div class="divider"></div>
+    
+        <!-- RIGHT PANEL: Casino Poker Tokens -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Casino Poker Tokens</h2>
+            <span>Special Menu</span>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-red.svg" alt="Red poker chip">
+              <div class="item-info">
+                <h3>Beef Noodles</h3>
+                <div class="color-name">Red Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-blue.svg" alt="Blue poker chip">
+              <div class="item-info">
+                <h3 class="h3-lg">Seafood Noodles</h3>
+                <div class="color-name">Blue Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-green.svg" alt="Green poker chip">
+              <div class="item-info">
+                <h3>Vegan Noodles</h3>
+                <div class="color-name">Green Striped Token</div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-black.svg" alt="Black poker chip">
+              <div class="item-info">
+                <h3>Tropical Drink</h3>
+                <div class="color-name">Black Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-white.svg" alt="White poker chip" style="border: 1px solid #999; border-radius: 50%;">
+              <div class="item-info">
+                <h3>Pear Drink</h3>
+                <div class="color-name">White Striped Token</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="poster">
+      <header class="master-header">
+        <h1>Back of House Order Code Reference Poster</h1>
+      </header>
+    
+      <div class="columns-container">
+        <!-- LEFT PANEL: Rectangular Blocks -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Rectangular Blocks</h2>
+            <span>Normal Food</span>
+          </div>
+    
+          <div class="cat-label">Status</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-black);"></div>
+            <div class="item-info">
+              <h3>VIP Guest</h3>
+              <div class="color-name">Solid Black</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-pink);"></div>
+            <div class="item-info">
+              <h3>Pink Curry</h3>
+              <div class="color-name">Pink</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-light-green);"></div>
+            <div class="item-info">
+              <h3 class="h3-lg">Vegan Pink Curry</h3>
+              <div class="color-name">Light Green</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-yellow);"></div>
+            <div class="item-info">
+              <h3>Omelette Rice</h3>
+              <div class="color-name">Yellow</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-purple);"></div>
+            <div class="item-info">
+              <h3>Swiss Roll</h3>
+              <div class="color-name">Purple</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-red);"></div>
+            <div class="item-info">
+              <h3>Watermelon Ade</h3>
+              <div class="color-name">Red</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-orange);"></div>
+            <div class="item-info">
+              <h3>Mango Ade</h3>
+              <div class="color-name">Orange</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-blue);"></div>
+            <div class="item-info">
+              <h3>Blue Lemonade</h3>
+              <div class="color-name">Blue</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-dark-green);"></div>
+            <div class="item-info">
+              <h3>Peach Iced Tea</h3>
+              <div class="color-name">Dark Green</div>
+            </div>
+          </div>
+        </section>
+    
+        <!-- DIVIDER -->
+        <div class="divider"></div>
+    
+        <!-- RIGHT PANEL: Casino Poker Tokens -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Casino Poker Tokens</h2>
+            <span>Special Menu</span>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-red.svg" alt="Red poker chip">
+              <div class="item-info">
+                <h3>Beef Noodles</h3>
+                <div class="color-name">Red Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-blue.svg" alt="Blue poker chip">
+              <div class="item-info">
+                <h3 class="h3-lg">Seafood Noodles</h3>
+                <div class="color-name">Blue Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-green.svg" alt="Green poker chip">
+              <div class="item-info">
+                <h3>Vegan Noodles</h3>
+                <div class="color-name">Green Striped Token</div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-black.svg" alt="Black poker chip">
+              <div class="item-info">
+                <h3>Tropical Drink</h3>
+                <div class="color-name">Black Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-white.svg" alt="White poker chip" style="border: 1px solid #999; border-radius: 50%;">
+              <div class="item-info">
+                <h3>Pear Drink</h3>
+                <div class="color-name">White Striped Token</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="poster">
+      <header class="master-header">
+        <h1>Back of House Order Code Reference Poster</h1>
+      </header>
+    
+      <div class="columns-container">
+        <!-- LEFT PANEL: Rectangular Blocks -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Rectangular Blocks</h2>
+            <span>Normal Food</span>
+          </div>
+    
+          <div class="cat-label">Status</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-black);"></div>
+            <div class="item-info">
+              <h3>VIP Guest</h3>
+              <div class="color-name">Solid Black</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-pink);"></div>
+            <div class="item-info">
+              <h3>Pink Curry</h3>
+              <div class="color-name">Pink</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-light-green);"></div>
+            <div class="item-info">
+              <h3 class="h3-lg">Vegan Pink Curry</h3>
+              <div class="color-name">Light Green</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-yellow);"></div>
+            <div class="item-info">
+              <h3>Omelette Rice</h3>
+              <div class="color-name">Yellow</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-purple);"></div>
+            <div class="item-info">
+              <h3>Swiss Roll</h3>
+              <div class="color-name">Purple</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-red);"></div>
+            <div class="item-info">
+              <h3>Watermelon Ade</h3>
+              <div class="color-name">Red</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-orange);"></div>
+            <div class="item-info">
+              <h3>Mango Ade</h3>
+              <div class="color-name">Orange</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-blue);"></div>
+            <div class="item-info">
+              <h3>Blue Lemonade</h3>
+              <div class="color-name">Blue</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-dark-green);"></div>
+            <div class="item-info">
+              <h3>Peach Iced Tea</h3>
+              <div class="color-name">Dark Green</div>
+            </div>
+          </div>
+        </section>
+    
+        <!-- DIVIDER -->
+        <div class="divider"></div>
+    
+        <!-- RIGHT PANEL: Casino Poker Tokens -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Casino Poker Tokens</h2>
+            <span>Special Menu</span>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-red.svg" alt="Red poker chip">
+              <div class="item-info">
+                <h3>Beef Noodles</h3>
+                <div class="color-name">Red Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-blue.svg" alt="Blue poker chip">
+              <div class="item-info">
+                <h3 class="h3-lg">Seafood Noodles</h3>
+                <div class="color-name">Blue Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-green.svg" alt="Green poker chip">
+              <div class="item-info">
+                <h3>Vegan Noodles</h3>
+                <div class="color-name">Green Striped Token</div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-black.svg" alt="Black poker chip">
+              <div class="item-info">
+                <h3>Tropical Drink</h3>
+                <div class="color-name">Black Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-white.svg" alt="White poker chip" style="border: 1px solid #999; border-radius: 50%;">
+              <div class="item-info">
+                <h3>Pear Drink</h3>
+                <div class="color-name">White Striped Token</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  <div class="cell">
+    <div class="poster">
+      <header class="master-header">
+        <h1>Back of House Order Code Reference Poster</h1>
+      </header>
+    
+      <div class="columns-container">
+        <!-- LEFT PANEL: Rectangular Blocks -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Rectangular Blocks</h2>
+            <span>Normal Food</span>
+          </div>
+    
+          <div class="cat-label">Status</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-black);"></div>
+            <div class="item-info">
+              <h3>VIP Guest</h3>
+              <div class="color-name">Solid Black</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-pink);"></div>
+            <div class="item-info">
+              <h3>Pink Curry</h3>
+              <div class="color-name">Pink</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-light-green);"></div>
+            <div class="item-info">
+              <h3 class="h3-lg">Vegan Pink Curry</h3>
+              <div class="color-name">Light Green</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-yellow);"></div>
+            <div class="item-info">
+              <h3>Omelette Rice</h3>
+              <div class="color-name">Yellow</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-purple);"></div>
+            <div class="item-info">
+              <h3>Swiss Roll</h3>
+              <div class="color-name">Purple</div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-red);"></div>
+            <div class="item-info">
+              <h3>Watermelon Ade</h3>
+              <div class="color-name">Red</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-orange);"></div>
+            <div class="item-info">
+              <h3>Mango Ade</h3>
+              <div class="color-name">Orange</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-blue);"></div>
+            <div class="item-info">
+              <h3>Blue Lemonade</h3>
+              <div class="color-name">Blue</div>
+            </div>
+          </div>
+          <div class="block-row">
+            <div class="block-swatch" style="background: var(--c-dark-green);"></div>
+            <div class="item-info">
+              <h3>Peach Iced Tea</h3>
+              <div class="color-name">Dark Green</div>
+            </div>
+          </div>
+        </section>
+    
+        <!-- DIVIDER -->
+        <div class="divider"></div>
+    
+        <!-- RIGHT PANEL: Casino Poker Tokens -->
+        <section class="panel">
+          <div class="col-header">
+            <h2>Casino Poker Tokens</h2>
+            <span>Special Menu</span>
+          </div>
+    
+          <div class="cat-label">Food</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-red.svg" alt="Red poker chip">
+              <div class="item-info">
+                <h3>Beef Noodles</h3>
+                <div class="color-name">Red Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-blue.svg" alt="Blue poker chip">
+              <div class="item-info">
+                <h3 class="h3-lg">Seafood Noodles</h3>
+                <div class="color-name">Blue Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-green.svg" alt="Green poker chip">
+              <div class="item-info">
+                <h3>Vegan Noodles</h3>
+                <div class="color-name">Green Striped Token</div>
+              </div>
+            </div>
+          </div>
+    
+          <div class="cat-label">Drinks</div>
+          <div class="token-grid">
+            <div class="token-card">
+              <img class="chip" src="chip-black.svg" alt="Black poker chip">
+              <div class="item-info">
+                <h3>Tropical Drink</h3>
+                <div class="color-name">Black Striped Token</div>
+              </div>
+            </div>
+    
+            <div class="token-card">
+              <img class="chip" src="chip-white.svg" alt="White poker chip" style="border: 1px solid #999; border-radius: 50%;">
+              <div class="item-info">
+                <h3>Pear Drink</h3>
+                <div class="color-name">White Striped Token</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
